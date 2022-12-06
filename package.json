@@ -1,0 +1,48 @@
+{
+  "name": "kedaireka-vr",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "download": "get-graphql-schema http://localhost:4600/graphql > schema.graphql"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.1",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@hookform/resolvers": "^2.9.10",
+    "@mui/icons-material": "^5.10.15",
+    "@mui/material": "^5.10.15",
+    "@mui/x-date-pickers": "^5.0.9",
+    "@react-google-maps/api": "^2.17.0",
+    "@types/google-map-react": "^2.1.7",
+    "@types/lodash": "^4.14.190",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "axios": "^1.2.0",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.5",
+    "get-graphql-schema": "^2.1.2",
+    "get-youtube-id": "^1.0.1",
+    "google-map-react": "^2.2.0",
+    "graphql": "^16.6.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "next": "13.0.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.39.5",
+    "react-toastify": "^9.1.1",
+    "recharts": "^2.1.16",
+    "typescript": "4.9.3",
+    "zod": "^3.19.1",
+    "zustand": "^4.1.4"
+  },
+  "devDependencies": {
+    "google-maps-react-markers": "^1.0.7"
+  }
+}

@@ -1,0 +1,351 @@
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!
+) on SCALAR
+
+type AuthPayload {
+  message: String
+  status: Boolean!
+  token: String
+  user: User
+}
+
+type City {
+  createdAt: Date!
+  id: ID!
+  name: String!
+  places: [Place!]!
+  province: Province!
+  updatedAt: Date!
+}
+
+enum CommentFields {
+  content
+  createdAt
+  id
+  updatedAt
+}
+
+type CommentPlace {
+  content: String!
+  createdAt: Date!
+  id: ID!
+  place: Place!
+  updatedAt: Date!
+  user: User!
+}
+
+enum Countable {
+  City
+  CommentPlace
+  Event
+  Favorite
+  Media
+  MediaEvent
+  Participation
+  Place
+  Proposal
+  Province
+  Rating
+  User
+}
+
+scalar Date
+
+type Event {
+  address: String!
+  createdAt: Date!
+  description: String
+  endDate: Date!
+  id: ID!
+  medias: [MediaEvent!]!
+  name: String!
+  place: Place!
+  startDate: Date!
+  thumbnail: MediaEvent
+  updatedAt: Date!
+}
+
+type EventAnalytic {
+  media: Int!
+  participants: Int!
+  views: Int!
+}
+
+enum EventFields {
+  createdAt
+  description
+  endDate
+  id
+  name
+  startDate
+  updatedAt
+}
+
+type Favorite {
+  createdAt: Date!
+  id: ID!
+  place: Place!
+  updatedAt: Date!
+  user: User!
+}
+
+enum FavoriteFields {
+  createdAt
+  id
+  updatedAt
+}
+
+type Media {
+  createdAt: Date!
+  id: ID!
+  index: Int!
+  isVr: Boolean!
+  kind: String!
+  place: Place!
+  thumbnailUrl: String
+  type: String!
+  updatedAt: Date!
+  url: String!
+}
+
+type MediaEvent {
+  createdAt: Date!
+  event: Event!
+  id: ID!
+  index: Int!
+  isVr: Boolean!
+  kind: String!
+  thumbnailUrl: String
+  type: String!
+  updatedAt: Date!
+  url: String!
+}
+
+enum MediaFields {
+  createdAt
+  id
+  type
+  updatedAt
+  url
+}
+
+input MediaInput {
+  id: Int
+  index: Int!
+  isVr: Boolean!
+  kind: MediaKind!
+  thumbnailUrl: String
+  type: MediaType!
+  url: String!
+}
+
+"""Media kind"""
+enum MediaKind {
+  LOCAL
+  YOUTUBE
+}
+
+"""Media type"""
+enum MediaType {
+  AUDIO
+  IMAGE
+  VIDEO
+}
+
+type Mutation {
+  createEvent(address: String!, endDate: String!, medias: [MediaInput!]!, name: String!, placeId: Int!, startDate: String!): Event!
+  createPlace(city: Int!, description: String, latitude: Float!, longitude: Float!, medias: [MediaInput!]!, name: String!, province: Int!): Place!
+  createProposal(authorId: Int!, cityId: Int!, comment: String!, description: String!, endDate: String!, latitude: Float!, longitude: Float!, name: String!, provinceId: Int!, startDate: String!, status: ProposalStatus!, type: ProposalType!): Proposal!
+  deleteComment(id: Int!): CommentPlace!
+  deleteEvent(id: Int!): Event!
+  deleteMedia(id: Int!): Media!
+  deleteMediaEvent(id: Int!): MediaEvent!
+  deletePlace(id: Int!): Place!
+  deleteProposal(id: Int!): Proposal!
+  login(email: String!, password: String!): AuthPayload!
+  updateEvent(address: String, endDate: String, id: Int!, medias: [MediaInput!], name: String, placeId: Int, startDate: String): Event!
+  updatePlace(city: Int, description: String, id: Int!, latitude: Float, longitude: Float, medias: [MediaInput!]!, name: String, province: Int): Place!
+  updateProposal(authorId: Int, cityId: Int, comment: String, description: String, endDate: String, id: Int!, latitude: Float, longitude: Float, name: String, provinceId: Int, startDate: String, status: ProposalStatus, type: ProposalType): Proposal!
+}
+
+type Participation {
+  createdAt: Date!
+  event: Event!
+  id: ID!
+  updatedAt: Date!
+  user: User!
+}
+
+enum ParticipationFields {
+  createdAt
+  id
+  updatedAt
+}
+
+type Place {
+  city: City
+  commentplaces: [CommentPlace!]!
+  createdAt: Date!
+  description: String
+  events: [Event!]!
+  favorites: [Favorite!]!
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+  medias: [Media!]!
+  name: String!
+  province: Province
+  ratings: [Rating!]!
+  thumbnail: Media
+  updatedAt: Date!
+}
+
+type PlaceAnalytic {
+  comments: Int!
+  events: Int!
+  favorites: Int!
+  ratingAverage: Float!
+  ratings: Int!
+  views: Int!
+}
+
+enum PlaceFields {
+  createdAt
+  description
+  id
+  latitude
+  longitude
+  name
+  updatedAt
+}
+
+type Proposal {
+  author: User!
+  city: City!
+  comment: String
+  createdAt: Date!
+  description: String
+  endDate: Date
+  id: ID!
+  latitude: Float
+  longitude: Float
+  name: String!
+  province: Province!
+  startDate: Date
+  status: ProposalStatus!
+  type: ProposalType!
+  updatedAt: Date!
+}
+
+enum ProposalFields {
+  authorId
+  cityId
+  comment
+  createdAt
+  description
+  endDate
+  id
+  latitude
+  longitude
+  name
+  province
+  startDate
+  status
+  type
+  updatedAt
+}
+
+"""Media type"""
+enum ProposalStatus {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
+"""Media type"""
+enum ProposalType {
+  EVENT
+  PLACE
+}
+
+type Province {
+  createdAt: Date!
+  id: ID!
+  name: String!
+  places: [Place!]!
+  updatedAt: Date!
+}
+
+type Query {
+  cities(provinceId: Int, search: String, skip: Int, take: Int): [City!]!
+  comment(id: Int!): CommentPlace!
+  comments(skip: Int, sortBy: CommentFields, sortOrder: SortOrder, tag: String, take: Int): [CommentPlace!]!
+  count(table: Countable): Int!
+  event(id: Int!): Event!
+  eventAnalytic(id: Int!): EventAnalytic!
+  events(skip: Int, sortBy: EventFields, sortOrder: SortOrder, tag: String, take: Int): [Event!]!
+  favorite(id: Int!): Favorite!
+  favorites(skip: Int, sortBy: FavoriteFields, sortOrder: SortOrder, tag: String, take: Int): [Favorite!]!
+  media(id: Int!): Media!
+  mediaEvent(id: Int!): MediaEvent!
+  medias(skip: Int, sortBy: MediaFields, sortOrder: SortOrder, take: Int): [Media!]!
+  mediasEvents(skip: Int, sortBy: MediaFields, sortOrder: SortOrder, take: Int): [MediaEvent!]!
+  participantion(id: Int!): Participation!
+  participations(skip: Int, sortBy: ParticipationFields, sortOrder: SortOrder, tag: String, take: Int): [Participation!]!
+  place(id: Int!): Place!
+  placeAnalytic(id: Int!): PlaceAnalytic!
+  places(search: String, skip: Int, sortBy: PlaceFields, sortOrder: SortOrder, tag: String, take: Int): [Place!]!
+  proposal(id: Int!): Proposal!
+  proposals(skip: Int, sortBy: ProposalFields, sortOrder: SortOrder, tag: String, take: Int): [Proposal!]!
+  provinces(search: String, skip: Int, take: Int): [Province!]!
+  user(id: Int!): User!
+  userAnalytic(id: Int!): UserAnalytic!
+  users(search: String, skip: Int, sortBy: UserFields, sortOrder: SortOrder, take: Int): [User!]!
+}
+
+type Rating {
+  createdAt: Date!
+  id: ID!
+  place: Place!
+  updatedAt: Date!
+  user: User!
+  value: Int!
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+type User {
+  avatar: String
+  commentplaces: [CommentPlace!]!
+  createdAt: Date!
+  email: String!
+  favorites: [Favorite!]!
+  id: ID!
+  name: String
+  phone: String
+  proposals: [Proposal!]!
+  ratings: [Rating!]!
+  updatedAt: Date!
+}
+
+type UserAnalytic {
+  comments: Int!
+  events: Int!
+  favorites: Int!
+  ratingAverage: Float!
+  ratings: Int!
+}
+
+enum UserFields {
+  createdAt
+  email
+  id
+  name
+  updatedAt
+}
+
